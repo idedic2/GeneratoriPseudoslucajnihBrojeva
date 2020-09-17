@@ -20,7 +20,8 @@ public class MiddleSquareController {
     public Label lblText;
     public TextField fieldSeed;
     public TextArea textareaNumbers;
-
+    private Thread thread;
+    private boolean active=false;
     private boolean allDigits(String str) {
         return str.chars().allMatch(Character::isDigit);
     }
@@ -30,6 +31,10 @@ public class MiddleSquareController {
         error.setTitle(title);
         error.setHeaderText(headerText);
         error.show();
+    }
+
+    public Thread getThread() {
+        return thread;
     }
 
     public void radioChange(ActionEvent actionEvent) {
@@ -62,21 +67,6 @@ public class MiddleSquareController {
 
     }
 
-    /*middlesquare System.out.println("Unesite sjeme ");
-        Scanner ulaz = new Scanner(System.in);
-        Long sjeme = ulaz.nextLong();
-       ArrayList<Long>list=new ArrayList<>();
-       while(true){
-           Long rez=middleSquare(sjeme);
-           if(list.contains(rez))
-               break;
-           list.add(rez);
-           sjeme=rez;
-       }
-       for(Long l: list)
-           System.out.println(l);
-
-        */
     public Long middleSquare(Long sjeme) {
         String stringSjeme = sjeme.toString();
         int brojCifara = stringSjeme.length();
@@ -128,6 +118,10 @@ public class MiddleSquareController {
                 showAlert("Greška", "Početna vrijednost mora sadržavati isključivo cifre", Alert.AlertType.ERROR);
                 return;
             }
+
+            thread = new Thread(() -> {
+                while (!Thread.currentThread().isInterrupted()) {
+                    active=true;
             ArrayList<Long> list = new ArrayList<>();
             Long sjeme = Long.parseLong(fieldSeed.getText());
             while (true) {
@@ -138,19 +132,31 @@ public class MiddleSquareController {
                 sjeme = rez;
             }
             textareaNumbers.setText(list.toString());
-        } else {
-            ArrayList<Long> list = new ArrayList<>();
-            Long sjeme = Long.parseLong(String.valueOf(675248));
-            while (true) {
-                Long rez = middleSquare(sjeme);
-                if (list.contains(rez))
-                    break;
-                list.add(rez);
-                sjeme = rez;
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        //e.printStackTrace();
+                        break;
+                    }
+                }
+            });
+            thread.start();
+        }
+                else {
+                    if(active)
+                    thread.stop();
+                    ArrayList<Long> list = new ArrayList<>();
+                Long sjeme = Long.parseLong(String.valueOf(675248));
+                while (true) {
+                    Long rez = middleSquare(sjeme);
+                    if (list.contains(rez))
+                        break;
+                    list.add(rez);
+                    sjeme = rez;
+                }
+                textareaNumbers.setText(list.toString());
+
             }
-            textareaNumbers.setText(list.toString());
 
         }
-
     }
-}

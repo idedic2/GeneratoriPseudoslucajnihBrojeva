@@ -26,7 +26,8 @@ public class LinearCongruential {
     public TextField fieldMultiplikator;
     public TextField fieldInkrement;
     public TextArea textareaNumbers;
-
+    private Thread thread;
+    private boolean active=false;
     private boolean allDigits(String str) {
         return str.chars().allMatch(Character::isDigit);
     }
@@ -36,6 +37,9 @@ public class LinearCongruential {
         error.setTitle(title);
         error.setHeaderText(headerText);
         error.show();
+    }
+    public Thread getThread() {
+        return thread;
     }
 
     public void radioChangeAction(ActionEvent actionEvent) {
@@ -179,7 +183,7 @@ public class LinearCongruential {
                 showAlert("Greška", "Modul m mora sadržavati isključivo cifre", Alert.AlertType.ERROR);
                 return;
             }
-            if(Long.parseLong(fieldModul.getText())<=0) {
+            if (Long.parseLong(fieldModul.getText()) <= 0) {
                 showAlert("Greška", "Modul m mora biti veći od 0", Alert.AlertType.ERROR);
                 return;
             }
@@ -194,7 +198,7 @@ public class LinearCongruential {
                 showAlert("Greška", "Multiplikator a mora sadržavati isključivo cifre", Alert.AlertType.ERROR);
                 return;
             }
-            if(Long.parseLong(fieldMultiplikator.getText())<=0 || Long.parseLong(fieldMultiplikator.getText())>=Long.parseLong(fieldModul.getText())){
+            if (Long.parseLong(fieldMultiplikator.getText()) <= 0 || Long.parseLong(fieldMultiplikator.getText()) >= Long.parseLong(fieldModul.getText())) {
                 showAlert("Greška", "Mora vrijediti 0<a<m", Alert.AlertType.ERROR);
                 return;
             }
@@ -208,27 +212,42 @@ public class LinearCongruential {
                 showAlert("Greška", "Inkrement c mora sadržavati isključivo cifre", Alert.AlertType.ERROR);
                 return;
             }
-            if(Long.parseLong(fieldInkrement.getText())<0 || Long.parseLong(fieldInkrement.getText())>=Long.parseLong(fieldMultiplikator.getText())){
+            if (Long.parseLong(fieldInkrement.getText()) < 0 || Long.parseLong(fieldInkrement.getText()) >= Long.parseLong(fieldModul.getText())) {
                 showAlert("Greška", "Mora vrijediti 0<=c<m", Alert.AlertType.ERROR);
                 return;
             }
 
-            if(Long.parseLong(fieldSeed.getText())<0 || Long.parseLong(fieldSeed.getText())>=Long.parseLong(fieldMultiplikator.getText())){
+            if (Long.parseLong(fieldSeed.getText()) < 0 || Long.parseLong(fieldSeed.getText()) >= Long.parseLong(fieldModul.getText())) {
                 showAlert("Greška", "Mora vrijediti 0<=x0<m", Alert.AlertType.ERROR);
                 return;
             }
-            Long sjeme = Long.parseLong(fieldSeed.getText());
-            ArrayList<Long>list=new ArrayList<>();
-            while(true){
-                Long pom=(sjeme*Long.parseLong(fieldMultiplikator.getText()))+Long.parseLong(fieldInkrement.getText());
-                Long iduca=pom%Long.parseLong(fieldModul.getText());
-                if(list.contains(iduca))break;
-                list.add(iduca);
-                sjeme=iduca;
-            }
+            thread = new Thread(() -> {
+                while (!Thread.currentThread().isInterrupted()) {
+                    active=true;
+                    Long sjeme = Long.parseLong(fieldSeed.getText());
+                    ArrayList<Long> list = new ArrayList<>();
 
-            textareaNumbers.setText(list.toString());
-        } else {
+                    while (true) {
+                        Long pom = (sjeme * Long.parseLong(fieldMultiplikator.getText())) + Long.parseLong(fieldInkrement.getText());
+                        Long iduca = pom % Long.parseLong(fieldModul.getText());
+                        if (list.contains(iduca)) break;
+                        list.add(iduca);
+                        sjeme = iduca;
+                    }
+
+                    textareaNumbers.setText(list.toString());
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        //e.printStackTrace();
+                        break;
+                    }
+                }
+            });
+            thread.start();
+        }else {
+            if(active)
+            thread.stop();
             Long sjeme = 0L;
             ArrayList<Long>list=new ArrayList<>();
             while(true){

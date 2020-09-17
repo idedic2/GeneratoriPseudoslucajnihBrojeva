@@ -24,7 +24,8 @@ public class BlumBlumShubController {
     public TextField fieldP;
     public TextField fieldQ;
     public TextArea textareaNumbers;
-
+    private Thread thread;
+    private boolean active=false;
     private boolean allDigits(String str) {
         return str.chars().allMatch(Character::isDigit);
     }
@@ -34,6 +35,10 @@ public class BlumBlumShubController {
         error.setTitle(title);
         error.setHeaderText(headerText);
         error.show();
+    }
+
+    public Thread getThread() {
+        return thread;
     }
 
     public void radioChangeAction(ActionEvent actionEvent) {
@@ -231,6 +236,9 @@ public class BlumBlumShubController {
                 return;
             }
 
+            thread = new Thread(() -> {
+                while (!Thread.currentThread().isInterrupted()) {
+                    active=true;
             ArrayList<Long> list = new ArrayList<>();
             Long sjeme = Long.parseLong(fieldSeed.getText());
             while (true) {
@@ -241,7 +249,19 @@ public class BlumBlumShubController {
                 sjeme=iduca;
             }
             textareaNumbers.setText(list.toString());
-        } else {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        //e.printStackTrace();
+                        break;
+                    }
+                }
+            });
+            thread.start();
+        }
+         else {
+             if(active)
+            thread.stop();
             ArrayList<Long> list = new ArrayList<>();
             Long sjeme = 5L;
             Long p=7L;
