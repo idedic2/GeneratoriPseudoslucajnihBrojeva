@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane prefHeight="420.0" prefWidth="788.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@/css/izgled.css" />
+    </stylesheets>
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="687.0" minWidth="10.0" prefWidth="491.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="539.0" minWidth="10.0" prefWidth="450.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="293.0" minHeight="10.0" prefHeight="207.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="361.0" minHeight="10.0" prefHeight="262.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <AnchorPane fx:id="image" prefHeight="361.0" prefWidth="514.0" GridPane.rowSpan="2" />
+        <Label prefHeight="45.0" prefWidth="397.0" text="Algoritmi za generisanje" GridPane.columnIndex="1">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+            <GridPane.margin>
+                <Insets left="20.0" />
+            </GridPane.margin>
+        </Label>
+        <GridPane prefHeight="274.0" prefWidth="423.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="297.0" minWidth="10.0" prefWidth="163.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="262.0" minWidth="10.0" prefWidth="211.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="83.0" minHeight="9.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="166.0" minHeight="10.0" prefHeight="63.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="164.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="164.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+         <children>
+            <Label text="Odaberite algoritam:" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <ChoiceBox fx:id="choiceAlgorithm" prefHeight="30.0" prefWidth="150.0" value="Middle Square" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Middle Square" />
+                        <String fx:value="Linear congruential generator" />
+                        <String fx:value="Blum Blum Shub" />
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+            <ButtonBar GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <buttons>
+                  <Button mnemonicParsing="false" onAction="#confirmAlgorithmAction" prefHeight="30.0" prefWidth="150.0" text="Potvrdi" />
+               </buttons>
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </ButtonBar>
+         </children>
+        </GridPane>
+        <Label text="pseudoslučajnih brojeva" GridPane.columnIndex="1">
+            <GridPane.margin>
+                <Insets left="20.0" top="100.0" />
+            </GridPane.margin>
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Label>
+    </children>
+</GridPane>
