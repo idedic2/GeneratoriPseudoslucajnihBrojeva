@@ -53,8 +53,9 @@
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Middle Square" />
-                        <String fx:value="Linear congruential generator" />
+                        <String fx:value="Linear Congruential Generator" />
                         <String fx:value="Blum Blum Shub" />
+                        <String fx:value="Lagged Fibonacci Generator" />
                     </FXCollections>
                 </items>
             </ChoiceBox>

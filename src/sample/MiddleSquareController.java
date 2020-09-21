@@ -106,7 +106,10 @@ public class MiddleSquareController {
     }
 
     public void generateAction(ActionEvent actionEvent) {
+
+
         if (radioWith.isSelected()) {
+
             if (fieldSeed.getText().trim().isEmpty()) {
                 //sveOk = false;
                 showAlert("Greška", "Unesite početnu vrijednost", Alert.AlertType.ERROR);
@@ -120,29 +123,37 @@ public class MiddleSquareController {
             }
 
             thread = new Thread(() -> {
-                while (!Thread.currentThread().isInterrupted()) {
+                while (true) {
+                    boolean stopThread = false;
                     active=true;
-            ArrayList<Long> list = new ArrayList<>();
-            Long sjeme = Long.parseLong(fieldSeed.getText());
-            while (true) {
-                Long rez = middleSquare(sjeme);
-                if (list.contains(rez))
-                    break;
-                list.add(rez);
-                sjeme = rez;
-            }
-            textareaNumbers.setText(list.toString());
+                    ArrayList<Long> list = new ArrayList<>();
+                    Long sjeme = Long.parseLong(fieldSeed.getText());
+                    while (true) {
+                        Long rez = middleSquare(sjeme);
+                        if (list.contains(rez)) {
+                            stopThread = true;
+                            break;
+                        }
+                    list.add(rez);
+                    sjeme = rez;
+                    }
+                    textareaNumbers.setText(list.toString());
+
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         //e.printStackTrace();
                         break;
                     }
+                    if (stopThread) break;
                 }
             });
             thread.start();
+
+
         }
                 else {
+
                     if(active)
                     thread.stop();
                     ArrayList<Long> list = new ArrayList<>();

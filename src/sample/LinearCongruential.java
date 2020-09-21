@@ -222,7 +222,8 @@ public class LinearCongruential {
                 return;
             }
             thread = new Thread(() -> {
-                while (!Thread.currentThread().isInterrupted()) {
+                while (true) {
+                    boolean stopThread = false;
                     active=true;
                     Long sjeme = Long.parseLong(fieldSeed.getText());
                     ArrayList<Long> list = new ArrayList<>();
@@ -230,7 +231,10 @@ public class LinearCongruential {
                     while (true) {
                         Long pom = (sjeme * Long.parseLong(fieldMultiplikator.getText())) + Long.parseLong(fieldInkrement.getText());
                         Long iduca = pom % Long.parseLong(fieldModul.getText());
-                        if (list.contains(iduca)) break;
+                        if (list.contains(iduca)){
+                            stopThread = true;
+                            break;
+                        }
                         list.add(iduca);
                         sjeme = iduca;
                     }
@@ -242,6 +246,7 @@ public class LinearCongruential {
                         //e.printStackTrace();
                         break;
                     }
+                    if (stopThread) break;
                 }
             });
             thread.start();

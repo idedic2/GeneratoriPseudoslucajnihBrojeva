@@ -237,14 +237,18 @@ public class BlumBlumShubController {
             }
 
             thread = new Thread(() -> {
-                while (!Thread.currentThread().isInterrupted()) {
+                while (true) {
+                    boolean stopThread = false;
                     active=true;
             ArrayList<Long> list = new ArrayList<>();
             Long sjeme = Long.parseLong(fieldSeed.getText());
             while (true) {
                 Long pom=sjeme*sjeme;
                 Long iduca=pom%M;
-                if(list.contains(iduca))break;
+                if(list.contains(iduca)){
+                    stopThread = true;
+                    break;
+                }
                 list.add(iduca);
                 sjeme=iduca;
             }
@@ -255,6 +259,7 @@ public class BlumBlumShubController {
                         //e.printStackTrace();
                         break;
                     }
+                    if (stopThread) break;
                 }
             });
             thread.start();
