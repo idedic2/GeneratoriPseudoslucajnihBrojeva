@@ -104,6 +104,15 @@ public class MiddleSquareController {
         });
 
     }
+    private boolean doesExist(ArrayList<Long>lista, Long value){
+        for(Long element: lista){
+            //System.out.println("Element: " + element + " value: " + value);
+            if(element==value)
+                return true;
+        }
+        return false;
+    }
+
 
     public void generateAction(ActionEvent actionEvent) {
 
@@ -130,7 +139,7 @@ public class MiddleSquareController {
                     Long sjeme = Long.parseLong(fieldSeed.getText());
                     while (true) {
                         Long rez = middleSquare(sjeme);
-                        if (list.contains(rez)) {
+                        if (doesExist(list, rez)) {
                             stopThread = true;
                             break;
                         }
@@ -160,7 +169,7 @@ public class MiddleSquareController {
                 Long sjeme = Long.parseLong(String.valueOf(675248));
                 while (true) {
                     Long rez = middleSquare(sjeme);
-                    if (list.contains(rez))
+                    if(doesExist(list, rez))
                         break;
                     list.add(rez);
                     sjeme = rez;

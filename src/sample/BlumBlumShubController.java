@@ -115,6 +115,14 @@ public class BlumBlumShubController {
             return gcd((a - b), b);
         return gcd(a, (b - a));
     }
+    private boolean doesExist(ArrayList<Long>lista, Long value){
+        for(Long element: lista){
+            //System.out.println("Element: " + element + " value: " + value);
+            if(element==value)
+                return true;
+        }
+        return false;
+    }
 
     @FXML
     public void initialize() {
@@ -245,7 +253,7 @@ public class BlumBlumShubController {
             while (true) {
                 Long pom=sjeme*sjeme;
                 Long iduca=pom%M;
-                if(list.contains(iduca)){
+                if(doesExist(list, iduca)){
                     stopThread = true;
                     break;
                 }
@@ -275,7 +283,7 @@ public class BlumBlumShubController {
             while (true) {
                 Long pom=sjeme*sjeme;
                 Long iduca=pom%M;
-                if(list.contains(iduca))break;
+                if(doesExist(list, iduca))break;
                 list.add(iduca);
                 sjeme=iduca;
             }

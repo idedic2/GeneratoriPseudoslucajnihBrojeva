@@ -38,6 +38,14 @@ public class LinearCongruential {
         error.setHeaderText(headerText);
         error.show();
     }
+    private boolean doesExist(ArrayList<Long>lista, Long value){
+        for(Long element: lista){
+            //System.out.println("Element: " + element + " value: " + value);
+            if(element==value)
+                return true;
+        }
+        return false;
+    }
     public Thread getThread() {
         return thread;
     }
@@ -218,7 +226,7 @@ public class LinearCongruential {
             }
 
             if (Long.parseLong(fieldSeed.getText()) < 0 || Long.parseLong(fieldSeed.getText()) >= Long.parseLong(fieldModul.getText())) {
-                showAlert("Greška", "Mora vrijediti 0<=x0<m", Alert.AlertType.ERROR);
+                showAlert("Greška", "Mora vrijediti 0<=sjeme<m", Alert.AlertType.ERROR);
                 return;
             }
             thread = new Thread(() -> {
@@ -231,7 +239,7 @@ public class LinearCongruential {
                     while (true) {
                         Long pom = (sjeme * Long.parseLong(fieldMultiplikator.getText())) + Long.parseLong(fieldInkrement.getText());
                         Long iduca = pom % Long.parseLong(fieldModul.getText());
-                        if (list.contains(iduca)){
+                        if (doesExist(list, iduca)){
                             stopThread = true;
                             break;
                         }
@@ -258,7 +266,8 @@ public class LinearCongruential {
             while(true){
                 Long pom=(sjeme*4)+1;
                 Long iduca=pom%9;
-                if(list.contains(iduca))break;
+                if (doesExist(list, iduca))
+                break;
                 list.add(iduca);
                 sjeme=iduca;
             }
