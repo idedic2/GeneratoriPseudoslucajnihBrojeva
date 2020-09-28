@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -34,7 +36,16 @@ public class LaggedFibonacci {
         error.setHeaderText(headerText);
         error.show();
     }
-
+    public void btnIzrazAction(ActionEvent actionEvent){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Lagged Fibonacci Generator");
+        alert.setHeaderText("LFG algoritam se može zapisati kao:");
+        Image image = new Image(getClass().getResource("/images/LFG.png").toExternalForm());
+        ImageView imageView = new ImageView(image);
+        alert.setGraphic(imageView);
+        alert.setContentText("");
+        alert.showAndWait();
+    }
     public Thread getThread() {
         return thread;
     }
