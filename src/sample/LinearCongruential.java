@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
@@ -39,6 +40,23 @@ public class LinearCongruential {
         error.setTitle(title);
         error.setHeaderText(headerText);
         error.show();
+    }
+    private boolean isPrime(Long number) {
+        int i = 2;
+        boolean flag = false;
+        while (i <= number / 2) {
+            // condition for nonprime number
+            if (number % i == 0) {
+                flag = true;
+                break;
+            }
+
+            ++i;
+        }
+
+        if (!flag)
+            return true;
+        return false;
     }
     public void btnIzrazAction(ActionEvent actionEvent){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -207,6 +225,10 @@ public class LinearCongruential {
                 showAlert("Greška", "Modul m mora biti veći od 0", Alert.AlertType.ERROR);
                 return;
             }
+            if (isPrime(Long.parseLong(fieldModul.getText()))) {
+                showAlert("Greška", "Modul m mora biti prost broj", Alert.AlertType.ERROR);
+                return;
+            }
             if (fieldMultiplikator.getText().trim().isEmpty()) {
                 //sveOk = false;
                 showAlert("Greška", "Unesite multiplikator a", Alert.AlertType.ERROR);
@@ -219,7 +241,7 @@ public class LinearCongruential {
                 return;
             }
             if (Long.parseLong(fieldMultiplikator.getText()) <= 0 || Long.parseLong(fieldMultiplikator.getText()) >= Long.parseLong(fieldModul.getText())) {
-                showAlert("Greška", "Mora vrijediti 0<a<m", Alert.AlertType.ERROR);
+                showAlert("Greška", "Mora vrijediti 0 < a < m", Alert.AlertType.ERROR);
                 return;
             }
             if (fieldInkrement.getText().trim().isEmpty()) {
@@ -233,12 +255,12 @@ public class LinearCongruential {
                 return;
             }
             if (Long.parseLong(fieldInkrement.getText()) < 0 || Long.parseLong(fieldInkrement.getText()) >= Long.parseLong(fieldModul.getText())) {
-                showAlert("Greška", "Mora vrijediti 0<=c<m", Alert.AlertType.ERROR);
+                showAlert("Greška", "Mora vrijediti 0 <= c < m", Alert.AlertType.ERROR);
                 return;
             }
 
             if (Long.parseLong(fieldSeed.getText()) < 0 || Long.parseLong(fieldSeed.getText()) >= Long.parseLong(fieldModul.getText())) {
-                showAlert("Greška", "Mora vrijediti 0<=sjeme<m", Alert.AlertType.ERROR);
+                showAlert("Greška", "Mora vrijediti 0 <= sjeme < m", Alert.AlertType.ERROR);
                 return;
             }
             thread = new Thread(() -> {
@@ -273,11 +295,12 @@ public class LinearCongruential {
         }else {
             if(active)
             thread.stop();
-            Long sjeme = 0L;
+            int time=LocalDateTime.now().getSecond();
+            Long sjeme = Long.parseLong(String.valueOf(time));
             ArrayList<Long>list=new ArrayList<>();
             while(true){
                 Long pom=(sjeme*4)+1;
-                Long iduca=pom%9;
+                Long iduca=pom%17;
                 if (doesExist(list, iduca))
                 break;
                 list.add(iduca);

@@ -10,8 +10,8 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Random;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 public class MiddleSquareController {
@@ -67,20 +67,20 @@ public class MiddleSquareController {
 
     }
 
-    public Long middleSquare(Long sjeme) {
+    public String middleSquare(String sjeme) {
         String stringSjeme = sjeme.toString();
         int brojCifara = stringSjeme.length();
-        Long kvadriranoSjeme = sjeme * sjeme;
+        Long kvadriranoSjeme = Long.parseLong(sjeme) * Long.parseLong(sjeme);
         String kvadriranoSjemeString = kvadriranoSjeme.toString();
         String novoSjeme = "";
         if (kvadriranoSjemeString.length() == (brojCifara * 2)) {
-
             novoSjeme = kvadriranoSjemeString.substring(brojCifara / 2, brojCifara + brojCifara / 2);
         } else {
+            while(kvadriranoSjemeString.length() != (brojCifara * 2))
             kvadriranoSjemeString = "0" + kvadriranoSjemeString;
             novoSjeme = kvadriranoSjemeString.substring(brojCifara / 2, brojCifara + brojCifara / 2);
         }
-        return Long.parseLong(novoSjeme);
+        return novoSjeme;
     }
 
     @FXML
@@ -104,10 +104,10 @@ public class MiddleSquareController {
         });
 
     }
-    private boolean doesExist(ArrayList<Long>lista, Long value){
-        for(Long element: lista){
+    private boolean doesExist(ArrayList<String>lista, String value){
+        for(String element: lista){
             //System.out.println("Element: " + element + " value: " + value);
-            if(element==value)
+            if(element.equals(value))
                 return true;
         }
         return false;
@@ -135,10 +135,10 @@ public class MiddleSquareController {
                 while (true) {
                     boolean stopThread = false;
                     active=true;
-                    ArrayList<Long> list = new ArrayList<>();
-                    Long sjeme = Long.parseLong(fieldSeed.getText());
+                    ArrayList<String> list = new ArrayList<>();
+                    String sjeme = fieldSeed.getText();
                     while (true) {
-                        Long rez = middleSquare(sjeme);
+                        String rez = middleSquare(sjeme);
                         if (doesExist(list, rez)) {
                             stopThread = true;
                             break;
@@ -165,10 +165,11 @@ public class MiddleSquareController {
 
                     if(active)
                     thread.stop();
-                    ArrayList<Long> list = new ArrayList<>();
-                Long sjeme = Long.parseLong(String.valueOf(675248));
+                    ArrayList<String> list = new ArrayList<>();
+                int time= LocalDateTime.now().getSecond();
+                String sjeme = String.valueOf(675248+time);
                 while (true) {
-                    Long rez = middleSquare(sjeme);
+                    String rez = middleSquare(sjeme);
                     if(doesExist(list, rez))
                         break;
                     list.add(rez);

@@ -12,6 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
@@ -288,7 +290,8 @@ public class BlumBlumShubController {
              if(active)
             thread.stop();
             ArrayList<Long> list = new ArrayList<>();
-            Long sjeme = 5L;
+            int time= LocalDateTime.now().getSecond();
+            Long sjeme = 5L+time;
             Long p=7L;
             Long q=11L;
             Long M=p*q;
